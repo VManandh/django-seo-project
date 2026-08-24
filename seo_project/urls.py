@@ -23,8 +23,8 @@ from blog.views import robots_txt
 sitemaps = {
     "blogs": BlogSitemap,
 }
-
-
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -56,3 +56,7 @@ urlpatterns = [
     name="robots"
 ),
 ]
+urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)

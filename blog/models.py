@@ -6,6 +6,14 @@ class Blog(models.Model):
     slug = models.SlugField(unique=True)
 
     content = models.TextField()
+    featured_image = models.ImageField(
+        upload_to="blog/images/",
+        blank=True,
+        null=True
+    )
+    image_alt = models.CharField(
+    max_length=255,
+    blank=True)
 
     seo_title = models.CharField(
         max_length=60,

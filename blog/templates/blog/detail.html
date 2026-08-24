@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +7,7 @@
 
     <meta charset="UTF-8">
 
+    <!-- SEO Title -->
     <title>
         {% if blog.seo_title %}
             {{ blog.seo_title }}
@@ -13,33 +16,47 @@
         {% endif %}
     </title>
 
+
+    <!-- Meta Description -->
     <meta
         name="description"
-        content="{{ blog.seo_description }}"
+        content="{% if blog.seo_description %}{{ blog.seo_description }}{% else %}{{ blog.title }}{% endif %}"
     >
 
+
+    <!-- Meta Keywords -->
+    {% if blog.seo_keywords %}
+        <meta
+            name="keywords"
+            content="{{ blog.seo_keywords }}"
+        >
+    {% endif %}
+
+
+    <!-- Robots -->
     <meta
-        name="keywords"
-        content="{{ blog.seo_keywords }}"
+        name="robots"
+        content="index, follow"
     >
+
 
     <!-- Canonical URL -->
-
     <link
         rel="canonical"
         href="{{ request.build_absolute_uri }}"
     >
 
+
     <!-- Open Graph -->
 
     <meta
         property="og:title"
-        content="{{ blog.seo_title|default:blog.title }}"
+        content="{% if blog.seo_title %}{{ blog.seo_title }}{% else %}{{ blog.title }}{% endif %}"
     >
 
     <meta
         property="og:description"
-        content="{{ blog.seo_description }}"
+        content="{% if blog.seo_description %}{{ blog.seo_description }}{% else %}{{ blog.title }}{% endif %}"
     >
 
     <meta
@@ -52,21 +69,98 @@
         content="{{ request.build_absolute_uri }}"
     >
 
+
+    <!-- Open Graph Image -->
+
+    {% if blog.featured_image %}
+
+        <meta
+            property="og:image"
+            content="{{ request.scheme }}://{{ request.get_host }}{{ blog.featured_image.url }}"
+        >
+
+    {% endif %}
+
+
+    <!-- JSON-LD Structured Data -->
+
+    <script type="application/ld+json">
+        {{ structured_data|safe }}
+    </script>
+
 </head>
+
 
 <body>
 
+
+    <!-- Breadcrumb -->
+
+    <nav aria-label="Breadcrumb">
+
+        <a href="/">
+            Home
+        </a>
+
+        &gt;
+
+        <a href="{% url 'blog-list' %}">
+            Blog
+        </a>
+
+        &gt;
+
+        <span>
+            {{ blog.title }}
+        </span>
+
+    </nav>
+
+
+    <br>
+
+
+    <!-- Blog Article -->
+
     <article>
+
+
+        <!-- Blog Title -->
 
         <h1>
             {{ blog.title }}
         </h1>
 
+
+        <!-- Featured Image -->
+
+        {% if blog.featured_image %}
+
+            <img
+                src="{{ blog.featured_image.url }}"
+                alt="{% if blog.image_alt %}{{ blog.image_alt }}{% else %}{{ blog.title }}{% endif %}"
+                title="{{ blog.title }}"
+                loading="lazy"
+            >
+
+        {% endif %}
+
+
+        <br>
+        <br>
+
+
+        <!-- Blog Content -->
+
         <div>
+
             {{ blog.content|safe }}
+
         </div>
 
+
     </article>
+
 
 </body>
 

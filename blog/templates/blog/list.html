@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        Django Blog - Latest Articles
+    </title>
+
+    <meta
+        name="description"
+        content="Read the latest Django, Django REST Framework and Python articles."
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+</head>
+
+<body>
+
+    <!-- Breadcrumb -->
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        &gt;
+
+        <span>
+            Blog
+        </span>
+
+    </nav>
+
+
+    <h1>
+        Latest Blog Articles
+    </h1>
+
+
+    {% for blog in blogs %}
+
+        <article>
+
+            {% if blog.featured_image %}
+
+                <img
+                    src="{{ blog.featured_image.url }}"
+                    alt="{{ blog.title }}"
+                    width="300"
+                >
+
+            {% endif %}
+
+
+            <h2>
+
+                <a href="{{ blog.get_absolute_url }}">
+
+                    {{ blog.title }}
+
+                </a>
+
+            </h2>
+
+
+            <p>
+
+                {% if blog.seo_description %}
+
+                    {{ blog.seo_description }}
+
+                {% else %}
+
+                    {{ blog.title }}
+
+                {% endif %}
+
+            </p>
+
+
+            <a href="{{ blog.get_absolute_url }}">
+
+                Read More
+
+            </a>
+
+        </article>
+
+        <hr>
+
+
+    {% empty %}
+
+        <p>
+            No published blogs found.
+        </p>
+
+    {% endfor %}
+
+
+    <!-- Pagination -->
+
+    {% if is_paginated %}
+
+        <nav aria-label="Blog pagination">
+
+            {% if page_obj.has_previous %}
+
+                <a
+                    href="?page={{ page_obj.previous_page_number }}"
+                >
+                    Previous
+                </a>
+
+            {% endif %}
+
+
+            <span>
+
+                Page {{ page_obj.number }}
+                of {{ page_obj.paginator.num_pages }}
+
+            </span>
+
+
+            {% if page_obj.has_next %}
+
+                <a
+                    href="?page={{ page_obj.next_page_number }}"
+                >
+                    Next
+                </a>
+
+            {% endif %}
+
+        </nav>
+
+    {% endif %}
+
+
+</body>
+
+</html>

@@ -6,7 +6,7 @@ from .views import BlogViewSet
 router = DefaultRouter()
 
 router.register(
-    "blogs",
+    r"blogs",
     BlogViewSet,
     basename="blog"
 )
