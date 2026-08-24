@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        {% if blog.seo_title %}
+            {{ blog.seo_title }}
+        {% else %}
+            {{ blog.title }}
+        {% endif %}
+    </title>
+
+    <meta
+        name="description"
+        content="{{ blog.seo_description }}"
+    >
+
+    <meta
+        name="keywords"
+        content="{{ blog.seo_keywords }}"
+    >
+
+    <!-- Canonical URL -->
+
+    <link
+        rel="canonical"
+        href="{{ request.build_absolute_uri }}"
+    >
+
+    <!-- Open Graph -->
+
+    <meta
+        property="og:title"
+        content="{{ blog.seo_title|default:blog.title }}"
+    >
+
+    <meta
+        property="og:description"
+        content="{{ blog.seo_description }}"
+    >
+
+    <meta
+        property="og:type"
+        content="article"
+    >
+
+    <meta
+        property="og:url"
+        content="{{ request.build_absolute_uri }}"
+    >
+
+</head>
+
+<body>
+
+    <article>
+
+        <h1>
+            {{ blog.title }}
+        </h1>
+
+        <div>
+            {{ blog.content|safe }}
+        </div>
+
+    </article>
+
+</body>
+
+</html>
